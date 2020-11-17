@@ -13,7 +13,10 @@ export class FoodComponent implements OnInit {
   constructor(private foodService: FoodService) {  }
 
   ngOnInit(): void {
-    this.theFood = this.foodService.getFoods();
+    this.foodService.getFoods().subscribe(
+      response => {
+        this.theFood = response;
+      });
   }
 
 }

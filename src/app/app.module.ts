@@ -18,6 +18,8 @@ import { OrderComponent } from './order/order.component';
 import { AppDropdownDirective } from './directives/dropdown.directive';
 import { OrderItemComponent } from './order/order-item/order-item.component';
 import { CommonModule } from '@angular/common';
+import { BACKEND_URL } from './constants.token';
+import { FoodAddComponent } from './food/food-add/food-add.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { CommonModule } from '@angular/common';
     NotFoundComponent,
     OrderComponent,
     AppDropdownDirective,
-    OrderItemComponent
+    OrderItemComponent,
+    FoodAddComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,9 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule
   ],
-  providers: [],
+  providers: [
+    {provide:BACKEND_URL, useValue:'http://localhost:4444/'} // dont forget to '/' at the end of url
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

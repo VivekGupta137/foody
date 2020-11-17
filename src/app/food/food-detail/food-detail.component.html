@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-4">
     <figure class="figure">
-      <img src="{{food.imagePath}}" alt="{{food.name}}" class="figure-img img-fluid rounded">
+      <img *ngIf="foodResolved" src="{{food.imagePath}}" alt="{{food.name}}" class="figure-img img-fluid rounded">
       <figcaption class="figure-caption">{{food.name}}</figcaption>
     </figure>
   </div>
@@ -22,8 +22,8 @@
     </div>
     <div>
       <button class="btn btn-success" (click)="addToCart()">Add to Cart</button>
-      <button class="btn btn-warning">Edit Recipe</button>
-      <button class="btn btn-danger">Delete Recipe</button>
+      <!-- <button class="btn btn-warning">Edit Recipe</button> -->
+      <button class="btn btn-danger" (click)="deleteTheRecipe()">Delete Recipe</button>
     </div>
   </div>
 </div>

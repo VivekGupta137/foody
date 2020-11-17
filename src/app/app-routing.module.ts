@@ -12,9 +12,9 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 const routes: Routes = [
   {path: "", redirectTo: "foods", pathMatch: 'full'},
   {path: "foods", component: FoodComponent},
-  {path: "foods/:id", component: FoodDetailComponent, canActivate: [AuthService]},
-  {path: "cart", component: ShoppingCartComponent, canActivate: [AuthService]},
-  {path: "orders", component: OrderComponent, canActivate: [AuthService]},
+  {path: "foods/:id", component: FoodDetailComponent},
+  {path: "cart", component: ShoppingCartComponent},
+  {path: "orders", component: OrderComponent}, // canActivate: [AuthService]
   {path: "**", component: NotFoundComponent}
 ];
 
