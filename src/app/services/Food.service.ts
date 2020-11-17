@@ -9,6 +9,7 @@ import {map, subscribeOn, tap} from 'rxjs/operators';
 import { FoodDTO } from '../model/DTO/Food.dto';
 import { IngredientDTO } from '../model/DTO/Ingredient.dto';
 import { Observable } from 'rxjs';
+import { AuthService } from './Auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class FoodService{
   foodDto: FoodDTO[] = [];
 
 
-  constructor(private http: HttpClient, private shoppingService: ShoppingService, @Inject(BACKEND_URL)  private url: string){}
+  constructor(private auth: AuthService,private http: HttpClient, private shoppingService: ShoppingService, @Inject(BACKEND_URL)  private url: string){}
 
   getFoods(): Observable<Food[]>{
     return this.http
@@ -81,5 +82,15 @@ export class FoodService{
   deleteTheFood(id: number){
     this.http.delete(this.url+"api/foods/"+id)
     .subscribe(response=>console.log(response));
+  }
+
+  addTheFood(food: Food){
+    let theBody = {
+      'name': food.name,
+      'description': food.description,
+      'imagepath': food.imagePath,
+      'ingredientsList': food.ingredient
+    };
+    this.http.post(this.url+"api/foods", theBody).subscribe();
   }
 }
