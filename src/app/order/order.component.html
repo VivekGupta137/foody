@@ -1,0 +1,27 @@
+<div class="display-4">Your Orders</div>
+<div class="row" style="margin-top: 1em">
+  <div class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Order id</th>
+          <th scope="col">Order date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders; let i = index" style="cursor: pointer" (click)="onSelect(order)">
+          <th scope="row">{{i}}</th>
+          <td>{{order.orderId}}</td>
+          <td>{{order.date | date: 'medium'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-5">
+    <app-order-item [order]="selectedOrder" *ngIf="showItem" (orderClose)="closeItem()"></app-order-item>
+  </div>
+</div>
+
+
+

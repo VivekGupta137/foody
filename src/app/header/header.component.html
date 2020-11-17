@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" style="cursor: pointer;" routerLink="/">Foody</a>
+    <button class="navbar-toggler" type="button" (click)="nvbarToggle=!nvbarToggle;">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse" [ngClass]="{'collapse':nvbarToggle}">
+      <!-- need collapse class to toggle directive -->
+      <div class="navbar-nav">
+        <a class="nav-link" routerLink="/foods" routerLinkActive="active">Foods</a>
+        <a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a>
+        <div class="nav-item dropdown" appDropdown>
+          <a class="nav-link dropdown-toggle" role="button" style="cursor: pointer;" >
+            Manage
+          </a>
+          <ul class="dropdown-menu" >
+            <!-- show class toggler -->
+            <li><a class="dropdown-item" routerLink="/orders" routerLinkActive="active" style="cursor: pointer;">Orders</a></li>
+            <li><a class="dropdown-item" (click)="login()" style="cursor: pointer;">Login</a></li>
+            <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
