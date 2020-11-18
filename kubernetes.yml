@@ -57,7 +57,7 @@ spec:
         - name: password
           value: "iiitbspring"
         - name: DB_URL
-          value: "jdbc:mysql://db-service:3306?useSSL=false&serverTimezone=UTC"
+          value: "jdbc:mysql://db-service:3306?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
         ports:
         - containerPort: 4444
         livenessProbe:
