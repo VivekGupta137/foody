@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { IngredientDTO } from '../model/DTO/Ingredient.dto';
 import { OrderDTO } from '../model/DTO/Order.dto';
 import { Ingredient } from '../model/Ingredient.model';

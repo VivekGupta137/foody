@@ -1,0 +1,1 @@
+echo '{ "serverurl":'$TESTV' }' > test.json
