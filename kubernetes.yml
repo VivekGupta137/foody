@@ -64,7 +64,7 @@ spec:
         - containerPort: 4444
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health
             port: 4444
         readinessProbe:
           httpGet:
