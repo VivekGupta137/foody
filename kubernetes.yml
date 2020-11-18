@@ -25,6 +25,8 @@ spec:
           value: "iiitbspring"
         - name: MYSQL_PASSWORD
           value: "iiitbspring"
+        - name: MYSQL_DATABASE
+          value: "foody"
         ports:
         - containerPort: 3306
 

@@ -18,7 +18,7 @@ services:
       retries: 10
 
   server:
-    # build: ./foodyBackEnd/
+    build: ./foodyBackEnd/
     image: vivekmt2019137/foodyserver:1
     depends_on: 
       - db
@@ -38,7 +38,7 @@ services:
     #   retries: 6
 
   app:
-    # build: ./foodyFrontEnd/
+    build: ./foodyFrontEnd/
     image: vivekmt2019137/app:1
     ports:
       - "3000:80"
