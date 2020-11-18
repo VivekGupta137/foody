@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: api-server
-        image: vivekmt2019137/foodyserver:1
+        image: vivekmt2019137/foodyserver:2
         env:
         - name: username
           value: "iiitbspring"

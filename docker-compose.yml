@@ -18,8 +18,8 @@ services:
       retries: 10
 
   server:
-    build: ./foodyBackEnd/
-    image: vivekmt2019137/foodyserver:1
+    build: ./backend/
+    image: vivekmt2019137/foodyserver:2
     depends_on: 
       - db
     networks: 
@@ -39,12 +39,11 @@ services:
 
   app:
     build: ./foodyFrontEnd/
-    image: vivekmt2019137/app:1
+    image: vivekmt2019137/app:2
     ports:
       - "3000:80"
     depends_on: 
       - server
-
 
 volumes:
   db-data:
