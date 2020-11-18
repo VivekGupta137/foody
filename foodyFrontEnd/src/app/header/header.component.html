@@ -9,17 +9,21 @@
       <div class="navbar-nav">
         <a class="nav-link" routerLink="/foods" routerLinkActive="active">Foods</a>
         <a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a>
-        <div class="nav-item dropdown" appDropdown>
-          <a class="nav-link dropdown-toggle" role="button" style="cursor: pointer;" >
-            Manage
-          </a>
-          <ul class="dropdown-menu" >
-            <!-- show class toggler -->
-            <li><a class="dropdown-item" routerLink="/orders" routerLinkActive="active" style="cursor: pointer;">Orders</a></li>
-            <li><a class="dropdown-item" (click)="login()" style="cursor: pointer;">Login</a></li>
-            <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a></li>
-          </ul>
-        </div>
+        <a class="nav-link" (click)="dummy()" style="cursor: pointer;">Add Dummy</a>
+
+        <a class="nav-link" *ngIf="!loginState; else dropDownRef;" (click)="login()" style="cursor: pointer;">Login</a>
+        <ng-template #dropDownRef>
+          <div class="nav-item dropdown" appDropdown>
+            <a class="nav-link dropdown-toggle" role="button" style="cursor: pointer;" >
+              Manage
+            </a>
+            <ul class="dropdown-menu" >
+              <!-- show class toggler -->
+              <li><a class="dropdown-item" routerLink="/orders" routerLinkActive="active" style="cursor: pointer;">Orders</a></li>
+              <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a></li>
+            </ul>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

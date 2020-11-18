@@ -1,0 +1,55 @@
+version: "3.3"
+services: 
+  db:
+    image: mysql:8.0
+    restart: always
+    networks:
+      - database
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwertyuiop
+      - MYSQL_DATABASE=foody
+      - MYSQL_USER=iiitbspring
+      - MYSQL_PASSWORD=iiitbspring
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  server:
+    build: ./foodyBackEnd/
+    image: vivekmt2019137/foodyserver:1.0
+    depends_on: 
+      db:
+        condition: service_healthy
+    networks: 
+      - database
+    environment: 
+      - username=iiitbspring
+      - password=iiitbspring
+      - DB_URL=jdbc:mysql://db:3306?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    expose:
+      - "4444"
+    ports:
+      - "4444:4444"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4444/actuator/health || exit 1"]
+      timeout: 10s
+      retries: 10
+
+  app:
+    build: ./foodyFrontEnd/
+    ports:
+      - "80:80"
+    depends_on: 
+      server:
+        condition: service_healthy
+
+
+volumes:
+  db-data:
+
+networks:
+  database:
+    driver: bridge

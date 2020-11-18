@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ export class AuthService implements CanActivate{
   constructor(private router: Router, private http: HttpClient, @Inject(BACKEND_URL) private url: string ){  }
 
   loggedIn: boolean;
+  authStatusChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   auth: {isAuthenticated: boolean, userid: number};
   HEADER: {'headers':{'userid':string}};
@@ -25,6 +26,7 @@ export class AuthService implements CanActivate{
       response => {
         this.auth = response;
         this.loggedIn = this.auth.isAuthenticated;
+        this.authStatusChange.emit(this.loggedIn);
         this.HEADER = {'headers':{'userid':this.auth.userid.toString()}};
       }
     );
@@ -33,6 +35,7 @@ export class AuthService implements CanActivate{
   logout(){
     this.router.navigate(['/']);
     this.loggedIn = false;
+    this.authStatusChange.emit(this.loggedIn);
     this.HEADER = null;
   }
 

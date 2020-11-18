@@ -8,12 +8,7 @@ import { OrderService } from './Order.service';
 })
 export class ShoppingService{
 
-  private ingredients: Ingredient[] = [
-    new Ingredient("ingredient 1", 2),
-    new Ingredient("ingredient 2", 3),
-    new Ingredient("ingredient 3", 5),
-    new Ingredient("ingredient 4", 1),
-  ];
+  private ingredients: Ingredient[] = [];
   public ingredientLoaded: EventEmitter<Ingredient[]> = new EventEmitter<Ingredient[]>();
 
   constructor(private orderService: OrderService){}
