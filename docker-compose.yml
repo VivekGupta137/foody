@@ -24,14 +24,15 @@ services:
       - db
     networks: 
       - database
+      - server
     environment: 
       - username=iiitbspring
       - password=iiitbspring
       - DB_URL=jdbc:mysql://db:3306?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
     expose:
-      - "4444"
+      - "8686"
     ports:
-      - "4444:4444"
+      - "8686:8686"
     # healthcheck:
     #   test: ["CMD-SHELL", "curl -f http://localhost:4444/actuator/health || exit 1"]
     #   timeout: 10s
@@ -40,6 +41,8 @@ services:
   app:
     build: ./foodyFrontEnd/
     image: vivekmt2019137/app:2
+    networks: 
+      - server
     ports:
       - "3000:80"
     depends_on: 
@@ -51,3 +54,4 @@ volumes:
 networks:
   database:
     driver: bridge
+  server:

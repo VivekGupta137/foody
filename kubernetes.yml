@@ -29,7 +29,7 @@ spec:
           value: "foody"
         ports:
         - containerPort: 3306
-
+ 
 
 ---
 apiVersion: apps/v1
@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: api-server
-        image: vivekmt2019137/foodyserver:2
+        image: vivekmt2019137/foodyserver:latest
         env:
         - name: username
           value: "iiitbspring"
@@ -61,16 +61,42 @@ spec:
         - name: DB_URL
           value: "jdbc:mysql://db-service:3306?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC"
         ports:
-        - containerPort: 4444
+        - containerPort: 8686
         livenessProbe:
           httpGet:
-            path: /actuator/health
-            port: 4444
+            path: /api/foods
+            port: 8686
+          periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 4444
+            port: 8686
           periodSeconds: 1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: app
+      service: app-service
+  template:
+    metadata:
+      labels:
+        type: app
+        service: app-service
+        framework: angular
+        language: typescript
+    spec:
+      containers:
+      - name: app
+        image: vivekmt2019137/app:latest
+        ports:
+        - containerPort: 80
 
 ---
 
@@ -87,15 +113,35 @@ spec:
 
 ---
 
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  loadBalancerIP: 20.193.159.33
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 80
+  selector:
+    type: app
+    service: app-service
+
+---
+
 
 apiVersion: v1
 kind: Service
 metadata:
   name: api-server
 spec:
+  loadBalancerIP: 20.193.159.62
   type: LoadBalancer
   ports:
-  - port: 4444
+  - name: api
+    port: 8686
+    targetPort: 8686
   selector:
     type: server-microservice
     service: api-server-service

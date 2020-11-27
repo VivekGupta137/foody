@@ -46,7 +46,7 @@ import { FoodAddComponent } from './food/food-add/food-add.component';
     CommonModule
   ],
   providers: [
-    {provide:BACKEND_URL, useValue:'http://localhost:4444/'} // dont forget to '/' at the end of url
+    {provide:BACKEND_URL, useValue:'http://20.193.159.62:8686/'} // dont forget to '/' at the end of url
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,79 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  jobs:
+  - job: build 
+    displayName: Loading the docker credentials and pushing image to docker registry
+    steps:
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: 'Azure for Students (87128664-a8a2-422a-a40f-8e9d1170213f)'
+        KeyVaultName: 'vivekiiitbkeyvault2'
+        SecretsFilter: '*'
+        RunAsPreJob: true
+    
+    - script: |
+        docker-compose build
+        # echo "build tag : $(git log -1 --format=%h)"
+        docker login -u $(dockerusername) -p $(dockerpassword)
+        docker tag vivekmt2019137/foodyserver:2 vivekmt2019137/foodyserver:$(git log -1 --format=%h)
+        docker tag vivekmt2019137/foodyserver:2 vivekmt2019137/foodyserver:latest
+        docker tag vivekmt2019137/app:2 vivekmt2019137/app:$(git log -1 --format=%h)
+        docker tag vivekmt2019137/app:2 vivekmt2019137/app:latest
+        docker push vivekmt2019137/foodyserver
+        docker push vivekmt2019137/app
+- stage: Deploy
+  condition: succeededOrFailed()
+  jobs:
+  - job: release
+    steps:    
+      # - task: KubernetesManifest@0
+      #   inputs:
+      #     action: 'deploy'
+      #     kubernetesServiceConnection: 'kube-aks-default-1605772575580'
+      #     manifests: 'kubernetes.yml'
+    # - task: KubernetesManifest@0
+    #   inputs:
+    #     action: 'deploy'
+    #     kubernetesServiceConnection: 'kube-aks-default-1605772575580'
+    #     manifests: 'kubernetes.yml'
+    #     containers: 'vivekmt2019137/foodyserver:$(git log -1 --format=%h)'
+
+    # - task: Kubernetes@0
+    #   inputs:
+    #     kubernetesServiceConnection: 'kube-aks-default-1605772575580'
+    #     command: 'delete'
+    #     arguments: '-f kubernetes.yml'
+    #     secretType: 'dockerRegistry'
+    #     containerRegistryType: 'Container Registry'
+    #     dockerRegistryConnection: 'dockerhub'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'kube-aks-default-1605772575580'
+        command: 'apply'
+        arguments: '-f kubernetes.yml'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Container Registry'
+        dockerRegistryEndpoint: 'dockerhub'
+    - task: Kubernetes@0
+      inputs:
+        kubernetesServiceConnection: 'kube-aks-default-1605772575580'
+        command: 'get'
+        arguments: 'pods'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+        azureSubscription: 'Azure for Students(87128664-a8a2-422a-a40f-8e9d1170213f)'

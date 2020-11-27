@@ -31,6 +31,7 @@ export class FoodService{
   constructor(private auth: AuthService,private http: HttpClient, private shoppingService: ShoppingService, @Inject(BACKEND_URL)  private url: string){}
 
   getFoods(): Observable<Food[]>{
+    console.log(this.url);
     return this.http
     .get<FoodDTO[]>(this.url+"api/foods")
     .pipe(
